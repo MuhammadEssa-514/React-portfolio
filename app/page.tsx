@@ -1,6 +1,7 @@
+
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import About from "@/components/About";
+// import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Experience from "@/components/Experience";
 import Education from "@/components/Education";
@@ -12,7 +13,7 @@ export default function Home() {
     <main className="min-h-screen bg-[var(--background)]">
       <Navbar />
       <Hero />
-      <About />
+      {/* <About /> */}
       <Skills />
       <Experience />
       <Education />
