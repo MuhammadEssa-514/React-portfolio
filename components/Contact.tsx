@@ -44,17 +44,18 @@ export default function Contact() {
                     <div className="h-1 w-20 bg-[var(--primary)] mx-auto mt-2 rounded-full" />
                 </motion.div>
 
-                <div className="grid md:grid-cols-2 gap-12">
+                <div className="grid md:grid-cols-2 gap-12 items-start">
                     {/* Contact Info */}
-                    <div className="space-y-8">
+                    <div className="space-y-10">
                         <motion.div
                             initial={{ opacity: 0, x: -50 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.5 }}
                             viewport={{ once: true }}
+                            className="text-center md:text-left"
                         >
                             <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Contact Information</h3>
-                            <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md">
+                            <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto md:mx-0">
                                 Feel free to reach out for collaborations, freelance work, or just a friendly chat. I'm always open to discussing new projects and creative ideas.
                             </p>
                         </motion.div>
@@ -70,14 +71,16 @@ export default function Contact() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.5, delay: index * 0.1 }}
                                     whileHover={{ scale: 1.02 }}
-                                    className="flex items-center p-4 bg-gray-50 dark:bg-white/5 rounded-xl hover:bg-white dark:hover:bg-white/10 shadow-sm hover:shadow-md transition-all border border-gray-100 dark:border-white/5"
+                                    className="flex flex-col sm:flex-row items-center sm:items-start p-6 bg-gray-50 dark:bg-white/5 rounded-2xl hover:bg-white dark:hover:bg-white/10 shadow-sm hover:shadow-md transition-all border border-gray-100 dark:border-white/5 overflow-hidden group text-center sm:text-left"
                                 >
-                                    <div className={`p-3 rounded-full text-white ${item.color} mr-4`}>
+                                    <div className={`p-4 rounded-full text-white ${item.color} mb-4 sm:mb-0 sm:mr-6 flex-shrink-0 transition-transform group-hover:scale-110 shadow-lg shadow-current/20`}>
                                         {item.icon}
                                     </div>
-                                    <div>
-                                        <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">{item.label}</h4>
-                                        <p className="text-lg font-semibold text-gray-900 dark:text-white">{item.value}</p>
+                                    <div className="min-w-0 flex-1">
+                                        <h4 className="text-xs uppercase tracking-wider font-bold text-gray-400 dark:text-gray-500 mb-1">{item.label}</h4>
+                                        <p className="text-base sm:text-lg font-bold text-gray-900 dark:text-white break-all sm:break-words whitespace-pre-wrap leading-tight">
+                                            {item.value}
+                                        </p>
                                     </div>
                                 </motion.a>
                             ))}
@@ -90,9 +93,9 @@ export default function Contact() {
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5 }}
                         viewport={{ once: true }}
-                        className="bg-gray-50 dark:bg-white/5 p-8 rounded-2xl border border-gray-200 dark:border-white/10 shadow-xl"
+                        className="bg-gray-50 dark:bg-white/5 p-6 sm:p-8 rounded-2xl border border-gray-200 dark:border-white/10 shadow-xl"
                     >
-                        <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Send a Message</h3>
+                        <h3 className="text-xl sm:text-2xl font-bold mb-6 text-gray-900 dark:text-white">Send a Message</h3>
                         <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>

@@ -21,6 +21,12 @@ export default function FloatingControls() {
         scrollToBottom();
     }, [messages]);
 
+    useEffect(() => {
+        const handleToggle = () => setIsOpen(prev => !prev);
+        window.addEventListener('toggle-chatbot', handleToggle);
+        return () => window.removeEventListener('toggle-chatbot', handleToggle);
+    }, []);
+
     const handleScrollTo = (id: string) => {
         const element = document.getElementById(id);
         if (element) {
@@ -50,8 +56,8 @@ export default function FloatingControls() {
     };
 
     return (
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4">
-            {/* WhatsApp Button */}
+        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4 pointer-events-none">
+            {/* WhatsApp Button - Only visible on Desktop */}
             <motion.a
                 href="https://wa.me/923555915756?text=Hello%20Muhammad%20Essa,%20I%20visited%20your%20portfolio..."
                 target="_blank"
@@ -59,18 +65,18 @@ export default function FloatingControls() {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 whileHover={{ scale: 1.1 }}
-                className="bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center"
+                className="hidden md:flex bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all items-center justify-center pointer-events-auto"
             >
                 <FaWhatsapp className="w-6 h-6" />
             </motion.a>
 
-            {/* Chatbot Toggle */}
+            {/* Chatbot Toggle - Only visible on Desktop */}
             <motion.button
                 onClick={() => setIsOpen(!isOpen)}
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 whileHover={{ scale: 1.1 }}
-                className="bg-[var(--primary)] text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center relative"
+                className="hidden md:flex bg-[var(--primary)] text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all items-center justify-center relative pointer-events-auto"
             >
                 {isOpen ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}
                 {!isOpen && (
@@ -85,19 +91,28 @@ export default function FloatingControls() {
                         initial={{ opacity: 0, y: 20, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                        className="absolute bottom-20 right-0 w-80 bg-white dark:bg-[#111] rounded-2xl shadow-2xl border border-gray-200 dark:border-white/10 overflow-hidden"
+                        className="fixed md:absolute bottom-[90px] md:bottom-20 left-1/2 -translate-x-1/2 md:left-auto md:right-0 md:translate-x-0 w-[calc(100vw-2rem)] md:w-80 bg-white dark:bg-[#111] rounded-2xl shadow-2xl border border-gray-200 dark:border-white/10 overflow-hidden pointer-events-auto z-[60]"
                     >
                         {/* Header */}
-                        <div className="bg-[var(--primary)] p-4 flex items-center gap-3">
-                            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                                <span className="text-white font-bold">AI</span>
+                        <div className="bg-[var(--primary)] p-4 flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                                    <span className="text-white font-bold">AI</span>
+                                </div>
+                                <div>
+                                    <h3 className="text-white font-bold text-sm">Assistant</h3>
+                                    <p className="text-white/80 text-[10px] flex items-center gap-1">
+                                        <span className="w-2 h-2 bg-green-400 rounded-full" /> Online
+                                    </p>
+                                </div>
                             </div>
-                            <div>
-                                <h3 className="text-white font-bold">Assistant</h3>
-                                <p className="text-white/80 text-xs flex items-center gap-1">
-                                    <span className="w-2 h-2 bg-green-400 rounded-full" /> Online
-                                </p>
-                            </div>
+                            <button
+                                onClick={() => setIsOpen(false)}
+                                className="p-2 hover:bg-white/10 rounded-full text-white transition-colors"
+                                aria-label="Close Chat"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
                         </div>
 
                         {/* Body */}
