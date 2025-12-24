@@ -1,14 +1,43 @@
 @import "tailwindcss";
 
 @layer base {
+
+  /* Global Font Application */
+  *,
+  ::before,
+  ::after {
+    font-family: var(--font-current), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+  }
+
   body {
     background-color: var(--background);
     color: var(--foreground);
-    font-family: var(--font-sans), sans-serif;
     overflow-x: hidden;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, font-family;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font-family: inherit;
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 300ms;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-current);
+    line-height: 1.2;
+    overflow: visible;
+    /* Prevent accidental scrollbars on headers */
   }
 }
 
@@ -17,9 +46,10 @@
   --background: #ffffff;
   --foreground: #171717;
   --primary: #f97316;
-  /* Orange-500 */
   --accent: #ea580c;
-  /* Orange-600 */
+
+  /* Initial Font Value */
+  --font-current: var(--font-geist-sans);
 }
 
 @theme inline {
