@@ -1,18 +1,59 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, X, Send } from 'lucide-react';
-import { FaWhatsapp } from 'react-icons/fa'; // Need to import from react-icons/fa
+import { FaWhatsapp } from 'react-icons/fa';
 
 export default function FloatingControls() {
     const [isOpen, setIsOpen] = useState(false);
+    const [messages, setMessages] = useState<{ text: string; isBot: boolean }[]>([
+        { text: "Hi! I'm Muhammad Essa's virtual assistant. How can I help you today?", isBot: true }
+    ]);
+    const [inputValue, setInputValue] = useState("");
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
+    const handleScrollTo = (id: string) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+            setIsOpen(false);
+        }
+    };
+
+    const handleSendMessage = () => {
+        if (!inputValue.trim()) return;
+
+        setMessages(prev => [...prev, { text: inputValue, isBot: false }]);
+        const userText = inputValue;
+        setInputValue("");
+
+        setTimeout(() => {
+            let response = "Thanks for your message! I'm just a demo bot, but you can contact Muhammad directly via WhatsApp or Email.";
+            if (userText.toLowerCase().includes("project")) {
+                response = "You can view the latest projects in the Experience section.";
+                handleScrollTo('experience');
+            } else if (userText.toLowerCase().includes("contact") || userText.toLowerCase().includes("email")) {
+                response = "You can find contact details at the bottom of the page.";
+                handleScrollTo('contact');
+            }
+            setMessages(prev => [...prev, { text: response, isBot: true }]);
+        }, 1000);
+    };
 
     return (
         <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4">
             {/* WhatsApp Button */}
             <motion.a
-                href="https://wa.me/923555915756?text=Hello%20Muhammad%20Essa,%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20contact%20you."
+                href="https://wa.me/923555915756?text=Hello%20Muhammad%20Essa,%20I%20visited%20your%20portfolio..."
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ scale: 0 }}
@@ -61,21 +102,26 @@ export default function FloatingControls() {
 
                         {/* Body */}
                         <div className="p-4 h-64 overflow-y-auto bg-gray-50 dark:bg-black/50 space-y-4">
-                            <div className="flex justify-start">
-                                <div className="bg-white dark:bg-gray-800 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%] text-sm text-gray-700 dark:text-gray-200">
-                                    Hi! I'm Muhammad Essa's virtual assistant. How can I help you today?
+                            {messages.map((msg, idx) => (
+                                <div key={idx} className={`flex ${msg.isBot ? 'justify-start' : 'justify-end'}`}>
+                                    <div className={`p-3 rounded-2xl shadow-sm max-w-[80%] text-sm ${msg.isBot ? 'bg-white dark:bg-gray-800 rounded-tl-none text-gray-700 dark:text-gray-200' : 'bg-[var(--primary)] text-white rounded-tr-none'}`}>
+                                        {msg.text}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="flex justify-start">
-                                <div className="bg-white dark:bg-gray-800 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%] space-y-2">
-                                    <button className="block w-full text-left text-xs bg-[var(--primary)]/10 text-[var(--primary)] hover:bg-[var(--primary)]/20 px-3 py-2 rounded-lg transition-colors">
-                                        View Projects
-                                    </button>
-                                    <button className="block w-full text-left text-xs bg-[var(--primary)]/10 text-[var(--primary)] hover:bg-[var(--primary)]/20 px-3 py-2 rounded-lg transition-colors">
-                                        Contact Info
-                                    </button>
+                            ))}
+                            {messages.length === 1 && (
+                                <div className="flex justify-start">
+                                    <div className="bg-white dark:bg-gray-800 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%] space-y-2">
+                                        <button onClick={() => handleScrollTo('experience')} className="block w-full text-left text-xs bg-[var(--primary)]/10 text-[var(--primary)] hover:bg-[var(--primary)]/20 px-3 py-2 rounded-lg transition-colors">
+                                            View Projects
+                                        </button>
+                                        <button onClick={() => handleScrollTo('contact')} className="block w-full text-left text-xs bg-[var(--primary)]/10 text-[var(--primary)] hover:bg-[var(--primary)]/20 px-3 py-2 rounded-lg transition-colors">
+                                            Contact Info
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
+                            <div ref={messagesEndRef} />
                         </div>
 
                         {/* Footer */}
@@ -83,10 +129,13 @@ export default function FloatingControls() {
                             <div className="flex items-center gap-2">
                                 <input
                                     type="text"
+                                    value={inputValue}
+                                    onChange={(e) => setInputValue(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                                     placeholder="Type a message..."
-                                    className="flex-1 bg-gray-100 dark:bg-black/50 border-none rounded-full px-4 py-2 text-sm focus:ring-1 focus:ring-[var(--primary)] outline-none"
+                                    className="flex-1 bg-gray-100 dark:bg-black/50 border-none rounded-full px-4 py-2 text-sm focus:ring-1 focus:ring-[var(--primary)] outline-none dark:text-white"
                                 />
-                                <button className="p-2 bg-[var(--primary)] text-white rounded-full hover:bg-[var(--accent)] transition-colors">
+                                <button onClick={handleSendMessage} className="p-2 bg-[var(--primary)] text-white rounded-full hover:bg-[var(--accent)] transition-colors">
                                     <Send className="w-4 h-4" />
                                 </button>
                             </div>

@@ -1,85 +1,94 @@
 'use client';
 
 import { useCallback } from "react";
-import type { Engine } from "tsparticles-engine";
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
+import type { Engine } from "tsparticles-engine";
 
-export default function ParticleBackground() {
+export default function AggressiveFireParticles() {
     const particlesInit = useCallback(async (engine: Engine) => {
-        // loadSlim loads the distinct features of tsparticles-slim (size < 100kb approx)
         await loadSlim(engine);
     }, []);
 
     return (
         <Particles
-            id="tsparticles"
+            id="fire-particles"
             init={particlesInit}
-            className="absolute inset-0 -z-10 opacity-30 dark:opacity-40"
+            className="fixed inset-0 -z-10 pointer-events-none"
             options={{
                 fullScreen: { enable: false },
                 background: {
-                    color: {
-                        value: "transparent",
-                    },
+                    color: { value: "transparent" },
                 },
-                fpsLimit: 120,
+                fpsLimit: 50, // Even lower for maximum lightness
                 interactivity: {
                     events: {
                         onHover: {
-                            enable: true,
-                            mode: "grab",
+                            enable: false, // Disabled hover → big performance win
                         },
-                        resize: true,
+                        onClick: {
+                            enable: true,
+                            mode: "push",
+                        },
+                        resize: { enable: true },
                     },
                     modes: {
-                        grab: {
-                            distance: 140,
-                            links: {
-                                opacity: 0.5,
+                        push: {
+                            quantity: 6, // Still nice burst but light
+                            particles: {
+                                color: { value: ["#ff1a00", "#ff6a00", "#ffd000", "#ff4500"] },
+                                size: { value: { min: 2, max: 7 } },
+                                opacity: { value: { min: 0.6, max: 1 } },
+                                move: {
+                                    speed: { min: 4, max: 9 },
+                                    direction: "top",
+                                    random: true,
+                                },
                             },
                         },
                     },
                 },
                 particles: {
                     color: {
-                        value: "#ea580c",
-                    },
-                    links: {
-                        color: "#ea580c",
-                        distance: 150,
-                        enable: true,
-                        opacity: 0.2,
-                        width: 1,
-                    },
-                    move: {
-                        direction: "none",
-                        enable: true,
-                        outModes: {
-                            default: "bounce",
-                        },
-                        random: false,
-                        speed: 1,
-                        straight: false,
-                    },
-                    number: {
-                        density: {
-                            enable: true,
-                            area: 800,
-                        },
-                        value: 50,
-                    },
-                    opacity: {
-                        value: 0.3,
+                        value: ["#00ff88", "#ff4444"], // Soft green + soft red (easier on eyes & GPU)
                     },
                     shape: {
                         type: "circle",
                     },
+                    opacity: {
+                        value: 0.8, // Fixed opacity → no animation = much lighter
+                        random: true,
+                    },
                     size: {
-                        value: { min: 1, max: 3 },
+                        value: { min: 2, max: 4 },
+                        random: true,
+                    },
+                    move: {
+                        enable: true,
+                        speed: { min: 0.2, max: 0.7 }, // Very slow calm drift
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        outModes: {
+                            default: "bounce",
+                        },
+                    },
+                    number: {
+                        value: 40, // Only 40 particles → super lightweight
+                        density: {
+                            enable: true,
+                            area: 800,
+                        },
+                    },
+                    links: {
+                        enable: true,
+                        distance: 150,
+                        color: "#00ff88",
+                        opacity: 0.25, // Very faint links
+                        width: 1,
                     },
                 },
-                detectRetina: true,
+                detectRetina: false, // Important for low performance impact
             }}
         />
     );

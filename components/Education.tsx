@@ -5,77 +5,69 @@ import { GraduationCap, Calendar } from 'lucide-react';
 
 const education = [
     {
-        degree: 'Bachelor’s Degree (Continuing)',
-        institution: 'University of Management & Technology (UMT), Lahore',
-        date: '2023 – Present',
+        degree: 'Matriculation-Army Public Jutial Gilgit',
+        institution: 'Complete Matriculation From Army Public School And College Jutial Gilgit Allhumdullah With 77% Marks In ICS Field By the God Of Grace.',
+        date: '2017 - 2019',
+        current: false
+    },
+    {
+        degree: 'Intermediate -Army Public Jutial Gilgit',
+        institution: 'Completed FSC From Army Public School And College Jutial Gilgit Allhumdullah I Get 82% Marks In FSC In ICS Field By The God Of Grace.',
+        date: '2019 - 2021',
+        current: false
+    },
+    {
+        degree: 'ADCS (Associate Degree in Computer Science)',
+        institution: 'By The God Of Grace I Completed Bs In Computer Science From Nust Under The Period Of 2019-2023 With Good GPA.',
+        date: '2023 - 2025',
         current: true
-    },
-    {
-        degree: 'F.Sc',
-        institution: 'Army Public School & College Jutial, Gilgit',
-        date: '2019 – 2021',
-        current: false
-    },
-    {
-        degree: 'Matriculation',
-        institution: 'Army Public School & College Jutial, Gilgit',
-        date: '2017 – 2019',
-        current: false
     }
 ];
 
 export default function Education() {
     return (
-        <section id="education" className="py-20 bg-gray-50 dark:bg-white/5 relative z-10">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-16"
-                >
-                    <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] bg-clip-text text-transparent inline-block">
-                        Education
-                    </h2>
-                    <div className="h-1 w-20 bg-[var(--primary)] mx-auto mt-2 rounded-full" />
-                </motion.div>
+        <section id="education" className="w-full">
+            <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+                className="mb-8"
+            >
+                <h2 className="text-3xl font-bold text-white mb-8">
+                    Education
+                </h2>
+            </motion.div>
 
-                <div className="grid md:grid-cols-3 gap-8">
-                    {education.map((edu, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            viewport={{ once: true }}
-                            className={`bg-white dark:bg-black p-8 rounded-xl shadow-lg border-2 ${edu.current ? 'border-[var(--primary)]' : 'border-transparent'} hover:border-[var(--primary)] transition-all duration-300 group`}
-                        >
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="p-3 bg-gray-100 dark:bg-white/10 rounded-lg group-hover:bg-[var(--primary)]/10 transition-colors">
-                                    <GraduationCap className={`w-6 h-6 ${edu.current ? 'text-[var(--primary)]' : 'text-gray-500 dark:text-gray-400'} group-hover:text-[var(--primary)] transition-colors`} />
-                                </div>
-                                {edu.current && (
-                                    <span className="px-2 py-1 bg-[var(--primary)]/10 text-[var(--primary)] text-xs font-bold uppercase rounded">
-                                        Current
-                                    </span>
-                                )}
-                            </div>
+            <div className="relative border-l-2 border-[var(--primary)] ml-3 md:ml-6 space-y-8 pl-8 pb-4">
+                {education.map((edu, index) => (
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        viewport={{ once: true }}
+                        className="relative"
+                    >
+                        {/* Dot on the timeline */}
+                        <div className="absolute top-0 -left-[41px] md:-left-[43px] w-6 h-6 bg-[var(--primary)] rounded-full border-4 border-black z-10" />
 
-                            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-[var(--primary)] transition-colors">
-                                {edu.degree}
-                            </h3>
-                            <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 font-medium">
-                                {edu.institution}
-                            </p>
-
-                            <div className="flex items-center text-sm text-gray-500 dark:text-gray-500">
+                        <div className="p-6 border border-[var(--primary)] rounded-lg bg-black/50 hover:bg-white/5 transition-colors duration-300">
+                            <div className="flex items-center text-[var(--primary)] text-sm font-semibold mb-2">
                                 <Calendar className="w-4 h-4 mr-2" />
                                 {edu.date}
                             </div>
-                        </motion.div>
-                    ))}
-                </div>
+
+                            <h3 className="text-xl font-bold text-white mb-2">
+                                {edu.degree}
+                            </h3>
+
+                            <p className="text-gray-400 text-sm leading-relaxed">
+                                {edu.institution}
+                            </p>
+                        </div>
+                    </motion.div>
+                ))}
             </div>
         </section>
     );

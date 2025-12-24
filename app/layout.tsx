@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import FloatingControls from "@/components/FloatingControls";
+import ParticleBackground from "@/components/ParticleBackground";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -32,6 +33,7 @@ export default function RootLayout({
 
         {children}
         <FloatingControls />
+        <ParticleBackground />
       </body>
     </html>
   );

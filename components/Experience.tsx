@@ -1,128 +1,73 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Calendar } from 'lucide-react';
 
 const experiences = [
     {
-        company: 'North Aims Technology',
-        role: 'Frontend Web Developer',
-        duration: '1 Year Experience',
-        date: '2022 - 2023', // Inferred or placeholder
-        progress: 85,
-        description: [
-            'Built responsive websites using React & Tailwind',
-            'Converted UI designs into pixel-perfect interfaces',
-            'Optimized performance and SEO'
-        ]
+        company: 'WAPDA',
+        role: 'Microsoft-Excel',
+        date: '2017',
+        description: 'I have three months experience in microsoft-excel and I also work at least one month 15 days as a data operator with "WAPDA".'
     },
     {
-        company: 'Tech Ever Company',
-        role: 'Frontend Developer',
-        duration: '1.6 Months Experience', // Maybe 1.6 Years? Text says "1.6 Months", likely 1.5 Years or user typo. I'll stick to text.
-        date: '2023 - Present', // Inferred
-        progress: 60,
-        description: [
-            'Worked on component-based UI',
-            'Improved UX and animations',
-            'Collaborated with senior developers'
-        ]
+        company: 'Gilgit Marketers "GB Marketers"',
+        role: 'SEO - Search-Engine-Optimization',
+        date: '2022',
+        description: 'I complete the three month course of SEO Search Engine Optimization in technical college chilmis with Gilgit Marketers "GB Marketers".'
     },
+    {
+        company: 'North Aims Technology',
+        role: 'Frontend-Web-Development',
+        date: '2023-Continue',
+        description: 'I work seven months with NAT "North Aims Techology" as a junier web developer and I also complete three month interenship with "IT" department Gilgit.'
+    }
 ];
-
-const totalStats = {
-    experience: '3+ Years',
-    growth: 90
-};
 
 export default function Experience() {
     return (
-        <section id="experience" className="py-20 bg-white dark:bg-black relative z-10">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-16"
-                >
-                    <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] bg-clip-text text-transparent inline-block">
-                        Work Experience
-                    </h2>
-                    <div className="h-1 w-20 bg-[var(--primary)] mx-auto mt-2 rounded-full" />
-                </motion.div>
+        <section id="experience" className="w-full mt-12 md:mt-0">
+            <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+                className="mb-8"
+            >
+                <h2 className="text-3xl font-bold text-white mb-8">
+                    Experience
+                </h2>
+            </motion.div>
 
-                <div className="relative">
-                    {/* Vertical Line */}
-                    <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 h-full w-1 bg-gray-200 dark:bg-gray-800" />
+            <div className="relative border-l-2 border-[var(--primary)] ml-3 md:ml-6 space-y-8 pl-8 pb-4">
+                {experiences.map((exp, index) => (
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        viewport={{ once: true }}
+                        className="relative"
+                    >
+                        {/* Dot on the timeline */}
+                        <div className="absolute top-0 -left-[41px] md:-left-[43px] w-6 h-6 bg-[var(--primary)] rounded-full border-4 border-black z-10" />
 
-                    <div className="space-y-12">
-                        {experiences.map((exp, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 50 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: index * 0.2 }}
-                                viewport={{ once: true }}
-                                className={`relative flex flex-col md:flex-row ${index % 2 === 0 ? 'md:flex-row-reverse' : ''} items-center w-full`}
-                            >
-                                {/* Timeline Dot */}
-                                <div className="absolute left-[-5px] md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-[var(--primary)] rounded-full border-4 border-white dark:border-black z-10" />
+                        <div className="p-6 border border-[var(--primary)] rounded-lg bg-black/50 hover:bg-white/5 transition-colors duration-300">
+                            <div className="flex items-center text-[var(--primary)] text-sm font-semibold mb-2">
+                                <Calendar className="w-4 h-4 mr-2" />
+                                {exp.date}
+                            </div>
 
-                                <div className="w-full md:w-5/12 ml-6 md:ml-0 md:px-8">
-                                    <div className="bg-gray-50 dark:bg-white/5 p-6 rounded-xl border border-gray-200 dark:border-white/10 shadow-lg hover:shadow-[var(--primary)]/10 transition-shadow duration-300">
-                                        <span className="inline-block px-3 py-1 bg-[var(--primary)]/10 text-[var(--primary)] text-xs font-semibold rounded-full mb-3">
-                                            {exp.duration}
-                                        </span>
-                                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">{exp.role}</h3>
-                                        <h4 className="text-md font-medium text-gray-500 dark:text-gray-400 mb-4">{exp.company}</h4>
+                            <h3 className="text-xl font-bold text-white mb-2">
+                                {exp.role}
+                            </h3>
 
-                                        <ul className="space-y-2 mb-6">
-                                            {exp.description.map((item, i) => (
-                                                <li key={i} className="flex items-start text-sm text-gray-600 dark:text-gray-300">
-                                                    <span className="mr-2 mt-1.5 w-1.5 h-1.5 bg-[var(--primary)] rounded-full flex-shrink-0" />
-                                                    {item}
-                                                </li>
-                                            ))}
-                                        </ul>
-
-                                        <div>
-                                            <div className="flex justify-between text-xs mb-1">
-                                                <span className="font-semibold text-gray-500 dark:text-gray-400">Proficiency</span>
-                                                <span className="font-bold text-[var(--primary)]">{exp.progress}%</span>
-                                            </div>
-                                            <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                                                <motion.div
-                                                    initial={{ width: 0 }}
-                                                    whileInView={{ width: `${exp.progress}%` }}
-                                                    transition={{ duration: 1.2, delay: 0.2 }}
-                                                    className="h-full bg-[var(--primary)]"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Overall Experience Summary */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                    viewport={{ once: true }}
-                    className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto"
-                >
-                    <div className="bg-[var(--primary)] text-white p-8 rounded-2xl text-center shadow-lg transform hover:scale-105 transition-transform duration-300">
-                        <h3 className="text-5xl font-bold mb-2">{totalStats.experience}</h3>
-                        <p className="font-medium opacity-90">Total Experience</p>
-                    </div>
-                    <div className="bg-gray-900 text-white p-8 rounded-2xl text-center shadow-lg border border-white/10 transform hover:scale-105 transition-transform duration-300">
-                        <h3 className="text-5xl font-bold mb-2 text-[var(--primary)]">{totalStats.growth}%</h3>
-                        <p className="font-medium text-gray-300">Professional Growth Level</p>
-                    </div>
-                </motion.div>
+                            <p className="text-gray-400 text-sm leading-relaxed">
+                                {exp.description}
+                            </p>
+                        </div>
+                    </motion.div>
+                ))}
             </div>
         </section>
     );
