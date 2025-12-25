@@ -8,7 +8,7 @@ import { Mail, Phone, Facebook, Twitter, Linkedin } from 'lucide-react';
 
 export default function Hero() {
     return (
-        <section id="home" className="relative min-h-screen flex flex-col md:flex-row md:items-center justify-center overflow-visible bg-gray-50 dark:bg-black px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+        <section id="home" className="relative min-h-screen flex flex-col md:flex-row md:items-center justify-center overflow-visible bg-transparent px-4 sm:px-6 lg:px-8 transition-colors duration-300">
 
             {/* Particle Background */}
             <ParticleBackground />

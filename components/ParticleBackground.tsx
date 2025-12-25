@@ -6,7 +6,7 @@ import { loadSlim } from "tsparticles-slim";
 import type { Engine } from "tsparticles-engine";
 
 export default function AggressiveFireParticles() {
-    const particlesInit = useCallback(async (engine: Engine) => {
+    const particlesInit = useCallback(async (engine: any) => {
         await loadSlim(engine);
     }, []);
 
@@ -14,7 +14,7 @@ export default function AggressiveFireParticles() {
         <Particles
             id="fire-particles"
             init={particlesInit}
-            className="fixed inset-0 -z-10 pointer-events-none"
+            className="fixed inset-0 z-0 pointer-events-none"
             options={{
                 fullScreen: { enable: false },
                 background: {
