@@ -68,8 +68,20 @@ export default function Navbar() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         <div className="flex-shrink-0">
-                            <Link href="/" className="text-xl font-bold bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] bg-clip-text text-transparent">
-                                Mr-Essa
+                            <Link href="/" className="group flex items-center hover:scale-105 transition-all duration-300 h-full">
+                                <div
+                                    className="h-20 md:h-31 w-15 bg-[var(--primary)] transition-colors duration-300"
+                                    style={{
+                                        WebkitMaskImage: "url('/logo_transparent.png')",
+                                        maskImage: "url('/logo_transparent.png')",
+                                        WebkitMaskSize: "contain",
+                                        maskSize: "contain",
+                                        WebkitMaskRepeat: "no-repeat",
+                                        maskRepeat: "no-repeat",
+                                        WebkitMaskPosition: "center",
+                                        maskPosition: "center"
+                                    }}
+                                />
                             </Link>
                         </div>
 
