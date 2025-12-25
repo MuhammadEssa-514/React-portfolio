@@ -65,12 +65,12 @@ export default function Navbar() {
         <>
             {/* Top Desktop Navbar & Mobile Logo Bar */}
             <nav className="fixed top-0 w-full z-50 border-b border-gray-200 dark:border-white/5 bg-white/80 dark:bg-black/80 backdrop-blur-md transition-colors duration-300">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16">
-                        <div className="flex-shrink-0">
+                <div className="w-full px-4 sm:px-6 lg:px-10">
+                    <div className="flex items-center justify-between h-16 md:h-24">
+                        <div className="flex-shrink-0 flex items-center">
                             <Link href="/" className="group flex items-center hover:scale-105 transition-all duration-300 h-full">
                                 <div
-                                    className="h-20 md:h-31 w-15 bg-[var(--primary)] transition-colors duration-300"
+                                    className="h-18 md:h-[124px] w-32 md:w-64 bg-[var(--primary)] transition-colors duration-300"
                                     style={{
                                         WebkitMaskImage: "url('/logo_transparent.png')",
                                         maskImage: "url('/logo_transparent.png')",
@@ -78,8 +78,8 @@ export default function Navbar() {
                                         maskSize: "contain",
                                         WebkitMaskRepeat: "no-repeat",
                                         maskRepeat: "no-repeat",
-                                        WebkitMaskPosition: "center",
-                                        maskPosition: "center"
+                                        WebkitMaskPosition: "left",
+                                        maskPosition: "left"
                                     }}
                                 />
                             </Link>

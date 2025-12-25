@@ -53,7 +53,7 @@ export default function Hero() {
 
                         {/* Social Icons */}
                         <div className="flex justify-center md:justify-start gap-3 sm:gap-4">
-                            {[{ Icon: Facebook, href: '#' }, { Icon: Twitter, href: '#' }, { Icon: Linkedin, href: '#' }].map(({ Icon, href }, index) => (
+                            {[{ Icon: Facebook, href: '#' }, { Icon: Twitter, href: '#' }, { Icon: Linkedin, href: 'https://www.linkedin.com/public-profile/settings?trk=d_flagship3_profile_self_view_public_profile' }].map(({ Icon, href }, index) => (
                                 <Link
                                     key={index}
                                     href={href}
