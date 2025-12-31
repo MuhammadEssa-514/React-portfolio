@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Playfair_Display, Fira_Code, Nunito, Roboto_Slab } from "next/font/google"; // Import 5 styles
+import { Geist, Geist_Mono, Playfair_Display, Nunito, Roboto_Slab } from "next/font/google"; // Import 5 styles
 import FloatingControls from "@/components/FloatingControls";
 import ParticleBackground from "@/components/ParticleBackground";
 import "./globals.css";
@@ -16,11 +16,6 @@ const geistMono = Geist_Mono({
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
-  subsets: ["latin"],
-});
-
-const firaCode = Fira_Code({
-  variable: "--font-fira",
   subsets: ["latin"],
 });
 
@@ -45,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${firaCode.variable} ${nunito.variable} ${robotoSlab.variable}`}>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${nunito.variable} ${robotoSlab.variable}`}>
       <body
         suppressHydrationWarning
         className="antialiased"
