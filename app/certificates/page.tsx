@@ -112,7 +112,7 @@ export default function Certificates() {
                                 onClick={() => setSelectedCategory(cat)}
                                 className={`px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 ${selectedCategory === cat
                                     ? 'bg-[var(--primary)] text-white shadow-lg shadow-[var(--primary)]/30 scale-105'
-                                    : 'bg-white/10 dark:bg-white/5 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-white/10 hover:bg-[var(--primary)]/10'
+                                    : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white dark:border-gray-700'
                                     }`}
                             >
                                 {cat}

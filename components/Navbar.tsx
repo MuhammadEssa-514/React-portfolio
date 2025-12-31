@@ -16,7 +16,8 @@ const navLinks = [
     { name: 'Skills', href: '/#skills', id: 'skills', icon: Code2 },
     { name: 'Contact', href: '/#contact', id: 'contact', icon: Mail },
     { name: 'Projects', href: '/projects', id: 'projects', icon: Layout },
-    { name: 'Certificates', href: '/certificates', id: 'certificates', icon: GraduationCap }, // Using GraduationCap as icon
+    { name: 'Certificates', href: '/certificates', id: 'certificates', icon: GraduationCap },
+    { name: 'Login', href: '/login', id: 'login', icon: User },
 ];
 
 export default function Navbar() {
