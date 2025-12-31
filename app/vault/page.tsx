@@ -57,6 +57,10 @@ export default function VaultDashboard() {
     const [previewFile, setPreviewFile] = useState<PrivateFile | null>(null);
     const [booting, setBooting] = useState(true);
     const [bootLines, setBootLines] = useState<string[]>([]);
+    const [systemLogs, setSystemLogs] = useState<string[]>([]);
+    const [cpuUsage, setCpuUsage] = useState(0);
+    const [ramUsage, setRamUsage] = useState(0);
+    const [networkSpeed, setNetworkSpeed] = useState(0);
 
     // Boot Sequence Effect
     useEffect(() => {
@@ -81,6 +85,43 @@ export default function VaultDashboard() {
             delay += Math.random() * 300 + 100;
         });
     }, []);
+
+    // Live System Logs
+    useEffect(() => {
+        if (booting) return;
+
+        const logMessages = [
+            "[AUTH] Session validated: USER_ADMIN",
+            "[NET] Packet received: 192.168.1.1",
+            "[SYS] Memory allocation: 2048MB",
+            "[SEC] Firewall status: ACTIVE",
+            "[DB] Query executed: SELECT * FROM vault",
+            "[NET] Bandwidth: 10Gbps",
+            "[SYS] CPU temperature: 42°C",
+            "[AUTH] Token refresh: SUCCESS"
+        ];
+
+        const interval = setInterval(() => {
+            const randomLog = logMessages[Math.floor(Math.random() * logMessages.length)];
+            const timestamp = new Date().toLocaleTimeString();
+            setSystemLogs(prev => [...prev.slice(-4), `[${timestamp}] ${randomLog}`]);
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, [booting]);
+
+    // Live Stats Animation
+    useEffect(() => {
+        if (booting) return;
+
+        const interval = setInterval(() => {
+            setCpuUsage(Math.floor(Math.random() * 40) + 30);
+            setRamUsage(Math.floor(Math.random() * 30) + 50);
+            setNetworkSpeed(Math.floor(Math.random() * 500) + 500);
+        }, 2000);
+
+        return () => clearInterval(interval);
+    }, [booting]);
 
     const handleLogout = async () => {
         await fetch('/api/vault/auth', { method: 'DELETE' });
@@ -157,29 +198,34 @@ export default function VaultDashboard() {
                 </div>
             </header>
 
-            <main className="max-w-7xl mx-auto px-4 py-8">
-                {/* Hacker Banner */}
-                <div className="mb-10 p-6 border-l-4 border-[#00ff41] bg-black/50 relative overflow-hidden">
-                    <div className="relative z-10">
-                        <h2 className="text-3xl font-black tracking-tighter uppercase mb-2 flex items-center gap-3">
-                            <Database size={28} />
-                            SECURE_DATA_VAULT_V9.0
-                        </h2>
-                        <div className="flex gap-4 text-[10px] uppercase tracking-widest opacity-70">
-                            <span>UPTIME: 99.999%</span>
-                            <span>Mem: 64TB</span>
-                            <span>CPU: OVERCLOCKED</span>
+            <main className="max-w-full px-4 py-6">
+                {/* Top Status Bar */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-6">
+                    <div className="border border-[#00ff41]/30 bg-black/80 p-3">
+                        <div className="flex items-center justify-between mb-2">
+                            <span className="text-[9px] opacity-50">SYSTEM_STATUS</span>
+                            <div className="w-1.5 h-1.5 bg-[#00ff41] rounded-full animate-pulse"></div>
                         </div>
+                        <div className="text-xl font-black">ONLINE</div>
                     </div>
-                    <div className="absolute right-10 top-1/2 -translate-y-1/2 font-black text-[120px] opacity-[0.03] select-none">
-                        0x41
+                    <div className="border border-[#00ff41]/30 bg-black/80 p-3">
+                        <div className="text-[9px] opacity-50 mb-2">ACTIVE_FILES</div>
+                        <div className="text-xl font-black">{filteredFiles.length}/{vaultDocuments.length}</div>
+                    </div>
+                    <div className="border border-[#00ff41]/30 bg-black/80 p-3">
+                        <div className="text-[9px] opacity-50 mb-2">ENCRYPTION</div>
+                        <div className="text-xl font-black">AES-256</div>
+                    </div>
+                    <div className="border border-[#00ff41]/30 bg-black/80 p-3">
+                        <div className="text-[9px] opacity-50 mb-2">THREAT_LEVEL</div>
+                        <div className="text-xl font-black text-[#00ff41]">NULL</div>
                     </div>
                 </div>
 
-                <div className="flex flex-col md:flex-row gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
 
-                    {/* Hacker Sidebar */}
-                    <aside className="w-full md:w-64 space-y-8 relative z-10 font-mono">
+                    {/* Left Sidebar */}
+                    <aside className="lg:col-span-3 space-y-4 relative z-10 font-mono">
                         {/* Search Node */}
                         <div className="relative group">
                             <div className="absolute -inset-0.5 bg-[#00ff41] opacity-20 group-focus-within:opacity-50 blur-md transition-all"></div>
@@ -236,14 +282,33 @@ export default function VaultDashboard() {
                                 />
                             </div>
                         </div>
+                        {/* Live System Logs */}
+                        <div className="border border-[#00ff41]/30 bg-black/90 p-3">
+                            <div className="flex items-center gap-2 mb-3 border-b border-[#00ff41]/20 pb-2">
+                                <Activity size={12} className="text-[#00ff41]" />
+                                <span className="text-[9px] font-black">LIVE_SYSTEM_LOGS</span>
+                            </div>
+                            <div className="space-y-1 text-[9px] font-mono h-32 overflow-hidden">
+                                {systemLogs.map((log: any, i: any) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, x: -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        className="text-[#00ff41]/70"
+                                    >
+                                        {log}
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
                     </aside>
 
-                    {/* Document Grid */}
-                    <div className="flex-1">
-                        <div className="flex items-center justify-between mb-6 border-b border-[#00ff41]/20 pb-2">
-                            <h3 className="text-sm font-black text-[#00ff41] uppercase tracking-[0.2em] flex items-center gap-2">
-                                <Activity size={16} />
-                                ACTIVE_PROCESSES: {filteredFiles.length}
+                    {/* Main Content Area */}
+                    <div className="lg:col-span-6">
+                        <div className="flex items-center justify-between mb-4 border-b border-[#00ff41]/20 pb-2">
+                            <h3 className="text-xs font-black text-[#00ff41] uppercase tracking-[0.2em] flex items-center gap-2">
+                                <Database size={14} />
+                                VAULT_ENTRIES: {filteredFiles.length}
                             </h3>
                         </div>
 
@@ -308,6 +373,109 @@ export default function VaultDashboard() {
                             </div>
                         )}
                     </div>
+
+                    {/* Right Sidebar - System Monitor */}
+                    <aside className="lg:col-span-3 space-y-4">
+                        {/* CPU Monitor */}
+                        <div className="border border-[#00ff41]/30 bg-black/90 p-4">
+                            <div className="text-[9px] opacity-50 mb-2 uppercase tracking-wider">CPU_USAGE</div>
+                            <div className="text-3xl font-black mb-3">{cpuUsage}%</div>
+                            <div className="w-full bg-[#00ff41]/20 h-2 rounded-sm overflow-hidden">
+                                <motion.div
+                                    className="bg-[#00ff41] h-full"
+                                    animate={{ width: `${cpuUsage}%` }}
+                                    transition={{ duration: 0.5 }}
+                                />
+                            </div>
+                            <div className="mt-2 text-[8px] opacity-40">CORES: 8 | THREADS: 16</div>
+                        </div>
+
+                        {/* RAM Monitor */}
+                        <div className="border border-[#00ff41]/30 bg-black/90 p-4">
+                            <div className="text-[9px] opacity-50 mb-2 uppercase tracking-wider">RAM_USAGE</div>
+                            <div className="text-3xl font-black mb-3">{ramUsage}%</div>
+                            <div className="w-full bg-[#00ff41]/20 h-2 rounded-sm overflow-hidden">
+                                <motion.div
+                                    className="bg-[#00ff41] h-full"
+                                    animate={{ width: `${ramUsage}%` }}
+                                    transition={{ duration: 0.5 }}
+                                />
+                            </div>
+                            <div className="mt-2 text-[8px] opacity-40">TOTAL: 64GB | AVAILABLE: {Math.floor(64 * (100 - ramUsage) / 100)}GB</div>
+                        </div>
+
+                        {/* Network Activity Graph */}
+                        <div className="border border-[#00ff41]/30 bg-black/90 p-4">
+                            <div className="text-[9px] opacity-50 mb-2 uppercase tracking-wider">NETWORK_SPEED</div>
+                            <div className="text-3xl font-black mb-3">{networkSpeed}<span className="text-sm ml-1">Mbps</span></div>
+                            <div className="space-y-1">
+                                {[...Array(6)].map((_, i) => (
+                                    <div key={i} className="flex gap-[2px] h-4">
+                                        {[...Array(30)].map((_, j) => (
+                                            <div
+                                                key={j}
+                                                className="flex-1 bg-[#00ff41]/20 transition-all duration-300"
+                                                style={{
+                                                    height: `${Math.random() * 100}%`,
+                                                    opacity: Math.random() * 0.5 + 0.3
+                                                }}
+                                            />
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Connection Info */}
+                        <div className="border border-[#00ff41]/30 bg-black/90 p-4">
+                            <div className="text-[9px] opacity-50 mb-3 uppercase tracking-wider">CONNECTION_INFO</div>
+                            <div className="space-y-2 text-[10px] font-mono">
+                                <div className="flex justify-between">
+                                    <span className="opacity-50">LOCAL_IP:</span>
+                                    <span className="text-[#00ff41]">192.168.1.{Math.floor(Math.random() * 255)}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="opacity-50">PORT:</span>
+                                    <span>8443</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="opacity-50">PROTOCOL:</span>
+                                    <span>HTTPS/2</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="opacity-50">LATENCY:</span>
+                                    <span className="text-[#00ff41]">{Math.floor(Math.random() * 20 + 10)}ms</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="opacity-50">PACKETS:</span>
+                                    <span>{Math.floor(Math.random() * 10000 + 50000)}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Security Status */}
+                        <div className="border border-[#00ff41]/30 bg-black/90 p-4">
+                            <div className="text-[9px] opacity-50 mb-3 uppercase tracking-wider">SEC_STATUS</div>
+                            <div className="space-y-2 text-[10px]">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-[#00ff41] rounded-full animate-pulse"></div>
+                                    <span>FIREWALL: ACTIVE</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-[#00ff41] rounded-full animate-pulse"></div>
+                                    <span>VPN: CONNECTED</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-[#00ff41] rounded-full animate-pulse"></div>
+                                    <span>ENCRYPTION: AES-256</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                                    <span className="text-red-500">INTRUSION: NONE</span>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
                 </div>
             </main>
 
