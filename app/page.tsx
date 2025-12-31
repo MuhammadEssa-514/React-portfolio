@@ -8,6 +8,7 @@ import Experience from "@/components/Experience";
 import Education from "@/components/Education";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import CertificatesCarousel from "@/components/CertificatesCarousel";
 import { motion } from "framer-motion";
 
 export default function Home() {
@@ -40,6 +41,7 @@ export default function Home() {
       </section>
 
       <Skills />
+      <CertificatesCarousel />
       <Contact />
       <Footer />
     </main>

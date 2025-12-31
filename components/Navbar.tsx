@@ -16,6 +16,7 @@ const navLinks = [
     { name: 'Skills', href: '/#skills', id: 'skills', icon: Code2 },
     { name: 'Contact', href: '/#contact', id: 'contact', icon: Mail },
     { name: 'Projects', href: '/projects', id: 'projects', icon: Layout },
+    { name: 'Certificates', href: '/certificates', id: 'certificates', icon: GraduationCap }, // Using GraduationCap as icon
 ];
 
 export default function Navbar() {
@@ -35,9 +36,13 @@ export default function Navbar() {
             setActiveSection('projects');
             return;
         }
+        if (pathname === '/certificates') {
+            setActiveSection('certificates');
+            return;
+        }
 
         const handleScroll = () => {
-            const sections = navLinks.map(link => link.id).filter((v, i, a) => a.indexOf(v) === i && v !== 'projects');
+            const sections = navLinks.map(link => link.id).filter((v, i, a) => a.indexOf(v) === i && v !== 'projects' && v !== 'certificates');
 
             for (const sectionId of sections) {
                 const element = document.getElementById(sectionId);
@@ -57,7 +62,8 @@ export default function Navbar() {
 
     const isActive = (linkId: string) => {
         if (pathname === '/projects' && linkId === 'projects') return true;
-        if (pathname !== '/projects' && activeSection === linkId && linkId !== 'projects') return true;
+        if (pathname === '/certificates' && linkId === 'certificates') return true;
+        if (pathname !== '/projects' && pathname !== '/certificates' && activeSection === linkId && linkId !== 'projects' && linkId !== 'certificates') return true;
         return false;
     };
 
@@ -93,7 +99,7 @@ export default function Navbar() {
                                         key={link.name}
                                         href={link.href}
                                         onClick={() => {
-                                            if (link.id !== 'projects') setActiveSection(link.id);
+                                            if (link.id !== 'projects' && link.id !== 'certificates') setActiveSection(link.id);
                                         }}
                                         className={`relative group px-1 py-2 text-sm font-medium transition-colors duration-300 ${isActive(link.id) ? 'text-[var(--primary)]' : 'text-gray-700 dark:text-gray-300 hover:text-[var(--primary)]'
                                             }`}
@@ -139,7 +145,7 @@ export default function Navbar() {
                                 key={link.name}
                                 href={link.href}
                                 onClick={() => {
-                                    if (link.id !== 'projects') setActiveSection(link.id);
+                                    if (link.id !== 'projects' && link.id !== 'certificates') setActiveSection(link.id);
                                 }}
                                 className="flex-shrink-0 snap-start"
                             >
