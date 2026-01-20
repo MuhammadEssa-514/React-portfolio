@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎨 Portfolio Usage Policy
 
-## Getting Started
+## 👋 Welcome
+This repository showcases **personal projects and professional portfolio work** created and maintained by **Muhammad Essa (514hub)**.
 
-First, run the development server:
+It is shared **strictly for viewing, evaluation, and review purposes**.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎯 Purpose of This Repository
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Purpose | Allowed |
+|-------|---------|
+| View project structure | ✅ Yes |
+| Review UI / UX design | ✅ Yes |
+| Evaluate technical skills | ✅ Yes |
+| Learning inspiration | ⚠️ Limited |
+| Direct code reuse | ❌ No |
+| Client or freelance use | ❌ No |
+| Commercial deployment | ❌ No |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🚫 Usage Restrictions
 
-To learn more about Next.js, take a look at the following resources:
+This portfolio is **NOT open source**.  
+No rights are granted to use, copy, or deploy this code without **explicit written permission**.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### ❌ Prohibited Actions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Restricted Action | Status |
+|------------------|--------|
+| Cloning and reusing projects | ❌ Not allowed |
+| Copying components or layouts | ❌ Not allowed |
+| Using code for paid work | ❌ Not allowed |
+| Redistributing the repository | ❌ Not allowed |
+| Selling or reselling content | ❌ Not allowed |
+| Deploying to production systems | ❌ Not allowed |
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ✅ Allowed Use (Limited)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Allowed Activity | Conditions |
+|----------------|------------|
+| Viewing source code | Evaluation only |
+| Reviewing architecture | High-level understanding |
+| Portfolio assessment | Hiring or review purposes |
+
+⚠️ **Direct reuse, deployment, or modification is not permitted.**
+
+---
+
+## 📄 Ownership & Intellectual Property
+
+| Item | Details |
+|----|---------|
+| Owner | Muhammad Essa |
+| Brand | 514hub |
+| Copyright | © 2026 Muhammad Essa |
+| Rights | All rights reserved |
+| License | No license granted |
+
+This repository does **not provide any open-source or commercial license**, express or implied.
+
+---
+
+## ⚖️ Legal Notice
+
+Unauthorized copying, reuse, or commercial exploitation of this portfolio content may violate **copyright and intellectual property laws** and could result in **legal action**.
+
+---
+
+## 📞 Permission & Collaboration
+
+If you wish to:
+- Request permission to use any part of this work
+- Collaborate on a project
+- License a design or implementation
+- Hire me professionally
+
+Please contact:
+
+| Contact Method | Details |
+|---------------|--------|
+| WhatsApp | +92 355 5915756 |
+
+---
+
+## ✨ Final Note
+
+This portfolio represents **original work, creativity, and professional experience**.  
+Respecting these terms helps maintain trust and professionalism.
+
+Thank you for visiting.
