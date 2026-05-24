@@ -23,6 +23,7 @@ import {
     Database,
     X
 } from 'lucide-react';
+import { personalData } from '@/data/personalVaultData';
 
 interface PrivateFile {
     id: string;
@@ -129,12 +130,183 @@ export default function VaultDashboard() {
     };
 
     const handleDownload = (fileName: string) => {
-        const link = document.createElement('a');
-        link.href = `/api/vault/files/${fileName}?download=true&t=${Date.now()}`;
-        link.setAttribute('download', fileName);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        // Documents that show IMAGES (download the actual image file)
+        const imageDocuments = ['kiuAdmissionFeeSlip.jpg', 'kiuAdmissionSlipChalan.jpg', '70tyBikeDoc.jpg'];
+
+        if (imageDocuments.includes(fileName)) {
+            // Download the actual image file
+            const link = document.createElement('a');
+            link.href = `/api/vault/files/${fileName}?download=true&t=${Date.now()}`;
+            link.setAttribute('download', fileName);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } else {
+            // Generate and download text/data file with form information
+            let content = '';
+            let downloadFileName = '';
+
+            // Generate content based on file type
+            if (fileName === 'cnic_front.jpg') {
+                downloadFileName = 'CNIC_Front_Data.txt';
+                content = `CNIC FRONT SIDE DATA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NAME: ${personalData.identity.cnic.fullName}
+FATHER NAME: ${personalData.identity.cnic.fatherName}
+CNIC NUMBER: ${personalData.identity.cnic.cnicNumber}
+DATE OF BIRTH: ${personalData.identity.cnic.dateOfBirth}
+DATE OF ISSUE: ${personalData.identity.cnic.dateOfIssue}
+EXPIRY DATE: ${personalData.identity.cnic.expiryDate}`;
+            } else if (fileName === 'cnic_back.jpg') {
+                downloadFileName = 'CNIC_Back_Data.txt';
+                content = `CNIC BACK SIDE DATA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ADDRESS:
+${personalData.identity.cnic.address}`;
+            } else if (fileName === 'domicile.jpg') {
+                downloadFileName = 'Domicile_Certificate.txt';
+                content = `DOMICILE CERTIFICATE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NAME: ${personalData.identity.domicile.name}
+FATHER NAME: ${personalData.identity.domicile.fatherName}
+DISTRICT: ${personalData.identity.domicile.district}
+DATE OF ISSUE: ${personalData.identity.domicile.dateOfIssue}`;
+            } else if (fileName === 'matric_marksheet.jpg') {
+                downloadFileName = 'Matric_Marksheet.txt';
+                const subjects = personalData.education.matricMarksheet.subjects
+                    .map(s => `${s.name.padEnd(25)} ${s.totalMarks}  ${s.obtainedMarks}  ${s.grade}`)
+                    .join('\n');
+                content = `SECONDARY SCHOOL CERTIFICATE - MARKSHEET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STUDENT NAME: ${personalData.education.matricMarksheet.studentName}
+FATHER NAME: ${personalData.education.matricMarksheet.fatherName}
+ROLL NUMBER: ${personalData.education.matricMarksheet.rollNumber}
+BOARD: ${personalData.education.matricMarksheet.board}
+YEAR: ${personalData.education.matricMarksheet.year}
+
+SUBJECT WISE MARKS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${'Subject'.padEnd(25)} Max  Obt  Grade
+${subjects}
+
+TOTAL MARKS: ${personalData.education.matricMarksheet.totalMarks}
+PERCENTAGE: ${personalData.education.matricMarksheet.percentage}
+GRADE: ${personalData.education.matricMarksheet.grade}`;
+            } else if (fileName === 'matric_degree.jpg') {
+                downloadFileName = 'Matric_Degree.txt';
+                content = `DEGREE CERTIFICATE
+SECONDARY SCHOOL CERTIFICATE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This is to certify that:
+${personalData.education.matricDegree.studentName}
+
+Son/Daughter of: ${personalData.education.matricDegree.fatherName}
+
+Has passed the ${personalData.education.matricDegree.examination}
+
+ROLL NUMBER: ${personalData.education.matricDegree.rollNumber}
+YEAR: ${personalData.education.matricDegree.year}
+
+GRADE OBTAINED: ${personalData.education.matricDegree.grade}
+
+${personalData.education.matricDegree.board}
+Issued: ${personalData.education.matricDegree.dateOfIssue}`;
+            } else if (fileName === 'fsc_marksheet.jpg') {
+                downloadFileName = 'FSc_Marksheet.txt';
+                const subjects = personalData.education.fscMarksheet.subjects
+                    .map(s => `${s.name.padEnd(25)} ${s.totalMarks}  ${s.obtainedMarks}  ${s.grade}`)
+                    .join('\n');
+                content = `HIGHER SECONDARY SCHOOL CERTIFICATE - MARKSHEET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STUDENT NAME: ${personalData.education.fscMarksheet.studentName}
+FATHER NAME: ${personalData.education.fscMarksheet.fatherName}
+ROLL NUMBER: ${personalData.education.fscMarksheet.rollNumber}
+BOARD: ${personalData.education.fscMarksheet.board}
+GROUP: ${personalData.education.fscMarksheet.group}
+YEAR: ${personalData.education.fscMarksheet.year}
+
+SUBJECT WISE MARKS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${'Subject'.padEnd(25)} Max  Obt  Grade
+${subjects}
+
+TOTAL MARKS: ${personalData.education.fscMarksheet.totalMarks}
+PERCENTAGE: ${personalData.education.fscMarksheet.percentage}
+GRADE: ${personalData.education.fscMarksheet.grade}`;
+            } else if (fileName === 'fsc_degree.jpg') {
+                downloadFileName = 'FSc_Degree.txt';
+                content = `DEGREE CERTIFICATE
+HIGHER SECONDARY SCHOOL CERTIFICATE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This is to certify that:
+${personalData.education.fscDegree.studentName}
+
+Son/Daughter of: ${personalData.education.fscDegree.fatherName}
+
+Has passed the ${personalData.education.fscDegree.examination}
+Group: ${personalData.education.fscDegree.group}
+
+ROLL NUMBER: ${personalData.education.fscDegree.rollNumber}
+YEAR: ${personalData.education.fscDegree.year}
+
+GRADE OBTAINED: ${personalData.education.fscDegree.grade}
+
+${personalData.education.fscDegree.board}
+Issued: ${personalData.education.fscDegree.dateOfIssue}`;
+            } else if (fileName === 'adcs_degree.jpg') {
+                downloadFileName = 'ADCS_Degree.txt';
+                content = `ASSOCIATE DEGREE CERTIFICATE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NAME: ${personalData.education.adcs.studentName}
+REGISTRATION NUMBER: ${personalData.education.adcs.registrationNumber}
+PROGRAM: ${personalData.education.adcs.program}
+INSTITUTION: ${personalData.education.adcs.institution}
+SESSION: ${personalData.education.adcs.session}
+MAJOR: ${personalData.education.adcs.major}
+
+CGPA: ${personalData.education.adcs.cgpa}
+YEAR: ${personalData.education.adcs.year}`;
+            } else if (fileName === 'APScharacterCertificate.jpg') {
+                downloadFileName = 'Character_Certificate.txt';
+                content = `CHARACTER CERTIFICATE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NAME: ${personalData.education.apsCharacter.studentName}
+FATHER NAME: ${personalData.education.apsCharacter.fatherName}
+SCHOOL: ${personalData.education.apsCharacter.school}
+LOCATION: ${personalData.education.apsCharacter.location}
+
+PERIOD OF STUDY: ${personalData.education.apsCharacter.period}
+
+CONDUCT: ${personalData.education.apsCharacter.conduct}
+CHARACTER: ${personalData.education.apsCharacter.character}
+
+PRINCIPAL: ${personalData.education.apsCharacter.principalName}
+DATE OF ISSUE: ${personalData.education.apsCharacter.dateOfIssue}`;
+            } else {
+                // Default fallback
+                downloadFileName = fileName.replace(/\.[^/.]+$/, '.txt');
+                content = `Document: ${fileName}\nNo data available for export.`;
+            }
+
+            // Create and download text file
+            const blob = new Blob([content], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = downloadFileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+        }
     };
 
     const handlePreview = (file: PrivateFile) => {
@@ -513,24 +685,363 @@ export default function VaultDashboard() {
                                 </button>
                             </div>
 
-                            {/* Content Area */}
-                            <div className="flex-1 overflow-auto bg-black p-4 flex items-center justify-center relative">
+                            {/* Content Area - Data Display */}
+                            <div className="flex-1 overflow-auto bg-black p-6 relative">
                                 {/* Grid Background behind content */}
                                 <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#00ff41_1px,transparent_1px)] bg-[size:20px_20px]"></div>
 
-                                {previewFile.type === 'pdf' ? (
-                                    <iframe
-                                        src={`/api/vault/files/${previewFile.fileName}`}
-                                        className="w-full h-full min-h-[70vh] border border-[#00ff41]/30"
-                                        title="PDF Preview"
-                                    />
-                                ) : (
-                                    <img
-                                        src={`/api/vault/files/${previewFile.fileName}`}
-                                        alt={previewFile.name}
-                                        className="max-w-full max-h-[75vh] object-contain border border-[#00ff41]/20 shadow-[0_0_30px_rgba(0,255,65,0.1)]"
-                                    />
-                                )}
+                                <div className="relative z-10 max-w-4xl mx-auto">
+                                    {/* CNIC Front */}
+                                    {previewFile.fileName === 'cnic_front.jpg' && (
+                                        <div className="border border-[#00ff41]/30 bg-black/80 p-6 space-y-4">
+                                            <h3 className="text-lg font-black text-[#00ff41] mb-4 border-b border-[#00ff41]/20 pb-2">CNIC_FRONT_DATA</h3>
+                                            <div className="grid grid-cols-2 gap-4 text-sm">
+                                                <div><span className="opacity-50">NAME:</span> <span className="font-bold">{personalData.identity.cnic.fullName}</span></div>
+                                                <div><span className="opacity-50">FATHER_NAME:</span> <span className="font-bold">{personalData.identity.cnic.fatherName}</span></div>
+                                                <div><span className="opacity-50">CNIC_NO:</span> <span className="font-bold">{personalData.identity.cnic.cnicNumber}</span></div>
+                                                <div><span className="opacity-50">DOB:</span> <span className="font-bold">{personalData.identity.cnic.dateOfBirth}</span></div>
+                                                <div><span className="opacity-50">ISSUE_DATE:</span> <span className="font-bold">{personalData.identity.cnic.dateOfIssue}</span></div>
+                                                <div><span className="opacity-50">EXPIRY:</span> <span className="font-bold">{personalData.identity.cnic.expiryDate}</span></div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* CNIC Back */}
+                                    {previewFile.fileName === 'cnic_back.jpg' && (
+                                        <div className="border border-[#00ff41]/30 bg-black/80 p-6 space-y-4">
+                                            <h3 className="text-lg font-black text-[#00ff41] mb-4 border-b border-[#00ff41]/20 pb-2">CNIC_BACK_DATA</h3>
+                                            <div className="text-sm">
+                                                <span className="opacity-50">ADDRESS:</span>
+                                                <p className="font-bold mt-2">{personalData.identity.cnic.address}</p>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Domicile */}
+                                    {previewFile.fileName === 'domicile.jpg' && (
+                                        <div className="border border-[#00ff41]/30 bg-black/80 p-6 space-y-4">
+                                            <h3 className="text-lg font-black text-[#00ff41] mb-4 border-b border-[#00ff41]/20 pb-2">DOMICILE_CERTIFICATE</h3>
+                                            <div className="grid grid-cols-2 gap-4 text-sm">
+                                                <div><span className="opacity-50">NAME:</span> <span className="font-bold">{personalData.identity.domicile.name}</span></div>
+                                                <div><span className="opacity-50">FATHER_NAME:</span> <span className="font-bold">{personalData.identity.domicile.fatherName}</span></div>
+                                                <div><span className="opacity-50">DISTRICT:</span> <span className="font-bold">{personalData.identity.domicile.district}</span></div>
+                                                <div><span className="opacity-50">ISSUE_DATE:</span> <span className="font-bold">{personalData.identity.domicile.dateOfIssue}</span></div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Matric Marksheet */}
+                                    {previewFile.fileName === 'matric_marksheet.jpg' && (
+                                        <div className="border-2 border-[#00ff41]/40 bg-black/90 p-8 space-y-6 max-w-3xl mx-auto">
+                                            <div className="text-center border-b-2 border-[#00ff41]/30 pb-4 mb-6">
+                                                <h3 className="text-2xl font-black text-[#00ff41] mb-2">SECONDARY SCHOOL CERTIFICATE</h3>
+                                                <p className="text-xs opacity-60">MATRIC EXAMINATION MARKSHEET</p>
+                                            </div>
+
+                                            <div className="grid grid-cols-2 gap-x-8 gap-y-4 text-base mb-6">
+                                                <div className="border-l-2 border-[#00ff41]/30 pl-3">
+                                                    <span className="text-xs opacity-50 block">NAME</span>
+                                                    <span className="font-bold text-lg">{personalData.education.matricMarksheet.studentName}</span>
+                                                </div>
+                                                <div className="border-l-2 border-[#00ff41]/30 pl-3">
+                                                    <span className="text-xs opacity-50 block">ROLL NUMBER</span>
+                                                    <span className="font-bold text-lg">{personalData.education.matricMarksheet.rollNumber}</span>
+                                                </div>
+                                                <div className="border-l-2 border-[#00ff41]/30 pl-3">
+                                                    <span className="text-xs opacity-50 block">BOARD</span>
+                                                    <span className="font-bold">{personalData.education.matricMarksheet.board}</span>
+                                                </div>
+                                                <div className="border-l-2 border-[#00ff41]/30 pl-3">
+                                                    <span className="text-xs opacity-50 block">YEAR</span>
+                                                    <span className="font-bold">{personalData.education.matricMarksheet.year}</span>
+                                                </div>
+                                            </div>
+
+                                            <div className="border border-[#00ff41]/30 rounded-sm overflow-hidden">
+                                                <table className="w-full text-sm">
+                                                    <thead>
+                                                        <tr className="bg-[#00ff41]/10 border-b-2 border-[#00ff41]/30">
+                                                            <th className="text-left py-3 px-4 font-black">SUBJECT</th>
+                                                            <th className="text-center py-3 px-4 font-black">MAX</th>
+                                                            <th className="text-center py-3 px-4 font-black">OBTAINED</th>
+                                                            <th className="text-center py-3 px-4 font-black">GRADE</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {personalData.education.matricMarksheet.subjects.map((sub: any, i: any) => (
+                                                            <tr key={i} className="border-b border-[#00ff41]/10 hover:bg-[#00ff41]/5">
+                                                                <td className="py-3 px-4">{sub.name}</td>
+                                                                <td className="text-center py-3 px-4 opacity-70">{sub.totalMarks}</td>
+                                                                <td className="text-center py-3 px-4 font-bold">{sub.obtainedMarks}</td>
+                                                                <td className="text-center py-3 px-4">
+                                                                    <span className="px-2 py-1 bg-[#00ff41]/20 text-[#00ff41] font-bold rounded">{sub.grade}</span>
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t-2 border-[#00ff41]/30">
+                                                <div className="text-center p-4 bg-[#00ff41]/5 border border-[#00ff41]/20">
+                                                    <span className="text-xs opacity-50 block mb-1">TOTAL MARKS</span>
+                                                    <span className="text-xl font-black">{personalData.education.matricMarksheet.totalMarks}</span>
+                                                </div>
+                                                <div className="text-center p-4 bg-[#00ff41]/5 border border-[#00ff41]/20">
+                                                    <span className="text-xs opacity-50 block mb-1">PERCENTAGE</span>
+                                                    <span className="text-xl font-black text-[#00ff41]">{personalData.education.matricMarksheet.percentage}</span>
+                                                </div>
+                                                <div className="text-center p-4 bg-[#00ff41]/10 border-2 border-[#00ff41]/40">
+                                                    <span className="text-xs opacity-50 block mb-1">GRADE</span>
+                                                    <span className="text-2xl font-black text-[#00ff41]">{personalData.education.matricMarksheet.grade}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* FSc Marksheet */}
+                                    {previewFile.fileName === 'fsc_marksheet.jpg' && (
+                                        <div className="border-2 border-[#00ff41]/40 bg-black/90 p-8 space-y-6 max-w-3xl mx-auto">
+                                            <div className="text-center border-b-2 border-[#00ff41]/30 pb-4 mb-6">
+                                                <h3 className="text-2xl font-black text-[#00ff41] mb-2">HIGHER SECONDARY SCHOOL CERTIFICATE</h3>
+                                                <p className="text-xs opacity-60">FSC EXAMINATION MARKSHEET</p>
+                                            </div>
+
+                                            <div className="grid grid-cols-2 gap-x-8 gap-y-4 text-base mb-6">
+                                                <div className="border-l-2 border-[#00ff41]/30 pl-3">
+                                                    <span className="text-xs opacity-50 block">NAME</span>
+                                                    <span className="font-bold text-lg">{personalData.education.fscMarksheet.studentName}</span>
+                                                </div>
+                                                <div className="border-l-2 border-[#00ff41]/30 pl-3">
+                                                    <span className="text-xs opacity-50 block">ROLL NUMBER</span>
+                                                    <span className="font-bold text-lg">{personalData.education.fscMarksheet.rollNumber}</span>
+                                                </div>
+                                                <div className="border-l-2 border-[#00ff41]/30 pl-3">
+                                                    <span className="text-xs opacity-50 block">BOARD</span>
+                                                    <span className="font-bold">{personalData.education.fscMarksheet.board}</span>
+                                                </div>
+                                                <div className="border-l-2 border-[#00ff41]/30 pl-3">
+                                                    <span className="text-xs opacity-50 block">GROUP</span>
+                                                    <span className="font-bold">{personalData.education.fscMarksheet.group}</span>
+                                                </div>
+                                            </div>
+
+                                            <div className="border border-[#00ff41]/30 rounded-sm overflow-hidden">
+                                                <table className="w-full text-sm">
+                                                    <thead>
+                                                        <tr className="bg-[#00ff41]/10 border-b-2 border-[#00ff41]/30">
+                                                            <th className="text-left py-3 px-4 font-black">SUBJECT</th>
+                                                            <th className="text-center py-3 px-4 font-black">MAX</th>
+                                                            <th className="text-center py-3 px-4 font-black">OBTAINED</th>
+                                                            <th className="text-center py-3 px-4 font-black">GRADE</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {personalData.education.fscMarksheet.subjects.map((sub: any, i: any) => (
+                                                            <tr key={i} className="border-b border-[#00ff41]/10 hover:bg-[#00ff41]/5">
+                                                                <td className="py-3 px-4">{sub.name}</td>
+                                                                <td className="text-center py-3 px-4 opacity-70">{sub.totalMarks}</td>
+                                                                <td className="text-center py-3 px-4 font-bold">{sub.obtainedMarks}</td>
+                                                                <td className="text-center py-3 px-4">
+                                                                    <span className="px-2 py-1 bg-[#00ff41]/20 text-[#00ff41] font-bold rounded">{sub.grade}</span>
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t-2 border-[#00ff41]/30">
+                                                <div className="text-center p-4 bg-[#00ff41]/5 border border-[#00ff41]/20">
+                                                    <span className="text-xs opacity-50 block mb-1">TOTAL MARKS</span>
+                                                    <span className="text-xl font-black">{personalData.education.fscMarksheet.totalMarks}</span>
+                                                </div>
+                                                <div className="text-center p-4 bg-[#00ff41]/5 border border-[#00ff41]/20">
+                                                    <span className="text-xs opacity-50 block mb-1">PERCENTAGE</span>
+                                                    <span className="text-xl font-black text-[#00ff41]">{personalData.education.fscMarksheet.percentage}</span>
+                                                </div>
+                                                <div className="text-center p-4 bg-[#00ff41]/10 border-2 border-[#00ff41]/40">
+                                                    <span className="text-xs opacity-50 block mb-1">GRADE</span>
+                                                    <span className="text-2xl font-black text-[#00ff41]">{personalData.education.fscMarksheet.grade}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* ADCS Degree */}
+                                    {previewFile.fileName === 'adcs_degree.jpg' && (
+                                        <div className="border border-[#00ff41]/30 bg-black/80 p-6 space-y-4">
+                                            <h3 className="text-lg font-black text-[#00ff41] mb-4 border-b border-[#00ff41]/20 pb-2">ADCS_DEGREE</h3>
+                                            <div className="grid grid-cols-2 gap-4 text-sm">
+                                                <div><span className="opacity-50">NAME:</span> <span className="font-bold">{personalData.education.adcs.studentName}</span></div>
+                                                <div><span className="opacity-50">REG_NO:</span> <span className="font-bold">{personalData.education.adcs.registrationNumber}</span></div>
+                                                <div><span className="opacity-50">PROGRAM:</span> <span className="font-bold">{personalData.education.adcs.program}</span></div>
+                                                <div><span className="opacity-50">CGPA:</span> <span className="font-bold text-[#00ff41]">{personalData.education.adcs.cgpa}</span></div>
+                                                <div><span className="opacity-50">INSTITUTION:</span> <span className="font-bold">{personalData.education.adcs.institution}</span></div>
+                                                <div><span className="opacity-50">YEAR:</span> <span className="font-bold">{personalData.education.adcs.year}</span></div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Matric Degree */}
+                                    {previewFile.fileName === 'matric_degree.jpg' && (
+                                        <div className="border-2 border-[#00ff41]/40 bg-black/90 p-8 max-w-2xl mx-auto">
+                                            <div className="text-center border-b-2 border-[#00ff41]/30 pb-6 mb-8">
+                                                <div className="text-6xl mb-4 opacity-20">🎓</div>
+                                                <h3 className="text-3xl font-black text-[#00ff41] mb-3">DEGREE CERTIFICATE</h3>
+                                                <p className="text-sm opacity-60">SECONDARY SCHOOL CERTIFICATE</p>
+                                            </div>
+
+                                            <div className="space-y-6 text-center">
+                                                <div>
+                                                    <p className="text-sm opacity-50 mb-2">This is to certify that</p>
+                                                    <p className="text-2xl font-black text-[#00ff41]">{personalData.education.matricDegree.studentName}</p>
+                                                </div>
+
+                                                <div>
+                                                    <p className="text-sm opacity-50 mb-2">Son/Daughter of</p>
+                                                    <p className="text-xl font-bold">{personalData.education.matricDegree.fatherName}</p>
+                                                </div>
+
+                                                <div className="py-4">
+                                                    <p className="text-sm opacity-50">has passed the</p>
+                                                    <p className="text-lg font-bold mt-2">{personalData.education.matricDegree.examination}</p>
+                                                </div>
+
+                                                <div className="grid grid-cols-2 gap-6 py-6 border-t border-b border-[#00ff41]/20">
+                                                    <div className="text-center">
+                                                        <span className="text-xs opacity-50 block mb-1">ROLL NUMBER</span>
+                                                        <span className="text-lg font-bold">{personalData.education.matricDegree.rollNumber}</span>
+                                                    </div>
+                                                    <div className="text-center">
+                                                        <span className="text-xs opacity-50 block mb-1">YEAR</span>
+                                                        <span className="text-lg font-bold">{personalData.education.matricDegree.year}</span>
+                                                    </div>
+                                                </div>
+
+                                                <div className="pt-4">
+                                                    <p className="text-xs opacity-50 mb-2">GRADE OBTAINED</p>
+                                                    <p className="text-3xl font-black text-[#00ff41]">{personalData.education.matricDegree.grade}</p>
+                                                </div>
+
+                                                <div className="text-xs opacity-40 pt-6">
+                                                    <p>{personalData.education.matricDegree.board}</p>
+                                                    <p className="mt-2">Issued: {personalData.education.matricDegree.dateOfIssue}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* FSc Degree */}
+                                    {previewFile.fileName === 'fsc_degree.jpg' && (
+                                        <div className="border-2 border-[#00ff41]/40 bg-black/90 p-8 max-w-2xl mx-auto">
+                                            <div className="text-center border-b-2 border-[#00ff41]/30 pb-6 mb-8">
+                                                <div className="text-6xl mb-4 opacity-20">🎓</div>
+                                                <h3 className="text-3xl font-black text-[#00ff41] mb-3">DEGREE CERTIFICATE</h3>
+                                                <p className="text-sm opacity-60">HIGHER SECONDARY SCHOOL CERTIFICATE</p>
+                                            </div>
+
+                                            <div className="space-y-6 text-center">
+                                                <div>
+                                                    <p className="text-sm opacity-50 mb-2">This is to certify that</p>
+                                                    <p className="text-2xl font-black text-[#00ff41]">{personalData.education.fscDegree.studentName}</p>
+                                                </div>
+
+                                                <div>
+                                                    <p className="text-sm opacity-50 mb-2">Son/Daughter of</p>
+                                                    <p className="text-xl font-bold">{personalData.education.fscDegree.fatherName}</p>
+                                                </div>
+
+                                                <div className="py-4">
+                                                    <p className="text-sm opacity-50">has passed the</p>
+                                                    <p className="text-lg font-bold mt-2">{personalData.education.fscDegree.examination}</p>
+                                                    <p className="text-base mt-2 opacity-70">Group: {personalData.education.fscDegree.group}</p>
+                                                </div>
+
+                                                <div className="grid grid-cols-2 gap-6 py-6 border-t border-b border-[#00ff41]/20">
+                                                    <div className="text-center">
+                                                        <span className="text-xs opacity-50 block mb-1">ROLL NUMBER</span>
+                                                        <span className="text-lg font-bold">{personalData.education.fscDegree.rollNumber}</span>
+                                                    </div>
+                                                    <div className="text-center">
+                                                        <span className="text-xs opacity-50 block mb-1">YEAR</span>
+                                                        <span className="text-lg font-bold">{personalData.education.fscDegree.year}</span>
+                                                    </div>
+                                                </div>
+
+                                                <div className="pt-4">
+                                                    <p className="text-xs opacity-50 mb-2">GRADE OBTAINED</p>
+                                                    <p className="text-3xl font-black text-[#00ff41]">{personalData.education.fscDegree.grade}</p>
+                                                </div>
+
+                                                <div className="text-xs opacity-40 pt-6">
+                                                    <p>{personalData.education.fscDegree.board}</p>
+                                                    <p className="mt-2">Issued: {personalData.education.fscDegree.dateOfIssue}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* APS Character Certificate */}
+                                    {previewFile.fileName === 'APScharacterCertificate.jpg' && (
+                                        <div className="border border-[#00ff41]/30 bg-black/80 p-6 space-y-4">
+                                            <h3 className="text-lg font-black text-[#00ff41] mb-4 border-b border-[#00ff41]/20 pb-2">CHARACTER_CERTIFICATE</h3>
+                                            <div className="grid grid-cols-2 gap-4 text-sm">
+                                                <div><span className="opacity-50">NAME:</span> <span className="font-bold">{personalData.education.apsCharacter.studentName}</span></div>
+                                                <div><span className="opacity-50">FATHER_NAME:</span> <span className="font-bold">{personalData.education.apsCharacter.fatherName}</span></div>
+                                                <div className="col-span-2"><span className="opacity-50">SCHOOL:</span> <span className="font-bold">{personalData.education.apsCharacter.school}</span></div>
+                                                <div><span className="opacity-50">LOCATION:</span> <span className="font-bold">{personalData.education.apsCharacter.location}</span></div>
+                                                <div><span className="opacity-50">PERIOD:</span> <span className="font-bold">{personalData.education.apsCharacter.period}</span></div>
+                                                <div><span className="opacity-50">CONDUCT:</span> <span className="font-bold text-[#00ff41]">{personalData.education.apsCharacter.conduct}</span></div>
+                                                <div><span className="opacity-50">CHARACTER:</span> <span className="font-bold text-[#00ff41]">{personalData.education.apsCharacter.character}</span></div>
+                                                <div><span className="opacity-50">PRINCIPAL:</span> <span className="font-bold">{personalData.education.apsCharacter.principalName}</span></div>
+                                                <div><span className="opacity-50">ISSUE_DATE:</span> <span className="font-bold">{personalData.education.apsCharacter.dateOfIssue}</span></div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* KIU Fee Slip - SHOWS REAL IMAGE */}
+                                    {previewFile.fileName === 'kiuAdmissionFeeSlip.jpg' && (
+                                        <div className="flex items-center justify-center p-4">
+                                            <img
+                                                src={`/api/vault/files/${previewFile.fileName}`}
+                                                alt="KIU Fee Slip"
+                                                className="max-w-full max-h-[75vh] object-contain border border-[#00ff41]/20 shadow-[0_0_30px_rgba(0,255,65,0.1)]"
+                                            />
+                                        </div>
+                                    )}
+
+                                    {/* KIU Admission Slip - SHOWS REAL IMAGE */}
+                                    {previewFile.fileName === 'kiuAdmissionSlipChalan.jpg' && (
+                                        <div className="flex items-center justify-center p-4">
+                                            <img
+                                                src={`/api/vault/files/${previewFile.fileName}`}
+                                                alt="KIU Admission Slip"
+                                                className="max-w-full max-h-[75vh] object-contain border border-[#00ff41]/20 shadow-[0_0_30px_rgba(0,255,65,0.1)]"
+                                            />
+                                        </div>
+                                    )}
+
+                                    {/* Bike Document - SHOWS REAL IMAGE */}
+                                    {previewFile.fileName === '70tyBikeDoc.jpg' && (
+                                        <div className="flex items-center justify-center p-4">
+                                            <img
+                                                src={`/api/vault/files/${previewFile.fileName}`}
+                                                alt="Bike Registration Document"
+                                                className="max-w-full max-h-[75vh] object-contain border border-[#00ff41]/20 shadow-[0_0_30px_rgba(0,255,65,0.1)]"
+                                            />
+                                        </div>
+                                    )}
+
+                                    {/* Default for other documents */}
+                                    {!['cnic_front.jpg', 'cnic_back.jpg', 'domicile.jpg', 'matric_marksheet.jpg', 'matric_degree.jpg', 'fsc_marksheet.jpg', 'fsc_degree.jpg', 'adcs_degree.jpg', 'APScharacterCertificate.jpg', 'kiuAdmissionFeeSlip.jpg', 'kiuAdmissionSlipChalan.jpg', '70tyBikeDoc.jpg'].includes(previewFile.fileName) && (
+                                        <div className="border border-[#00ff41]/30 bg-black/80 p-6 text-center">
+                                            <Database size={48} className="mx-auto mb-4 opacity-30" />
+                                            <p className="text-sm opacity-50">DATA_NOT_CONFIGURED</p>
+                                            <p className="text-xs opacity-30 mt-2">Add data for this document in personalVaultData.ts</p>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
 
                             {/* Footer Info */}
