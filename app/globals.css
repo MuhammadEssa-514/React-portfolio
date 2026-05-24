@@ -31,6 +31,16 @@
     transition-duration: 300ms;
   }
 
+  /* Hide default cursor on desktop — custom spider cursor will replace it */
+  @media (pointer: fine) {
+
+    html:not(.show-native-cursor) *,
+    html:not(.show-native-cursor) *::before,
+    html:not(.show-native-cursor) *::after {
+      cursor: none !important;
+    }
+  }
+
   button,
   input,
   select,
