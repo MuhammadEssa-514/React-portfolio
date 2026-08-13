@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
       }
     ],
   },
+  // Vercel-specific optimizations
+  productionBrowserSourceMaps: false,
+  experimental: {
+    optimizePackageImports: ["lucide-react", "framer-motion"],
+  },
 };
 
 export default nextConfig;
