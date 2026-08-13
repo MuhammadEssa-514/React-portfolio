@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Github, X, ChevronLeft, ChevronRight, Layers, Eye } from 'lucide-react';
@@ -37,7 +36,6 @@ export default function Projects() {
 
     return (
         <main className="min-h-screen relative bg-black selection:bg-[var(--primary)] selection:text-white">
-            <Navbar />
 
             {/* Project Modal / Gallery */}
             <AnimatePresence>
@@ -206,7 +204,7 @@ export default function Projects() {
                                 exit={{ opacity: 0, scale: 0.9 }}
                                 transition={{ duration: 0.3 }}
                                 key={project.id}
-                                className="group relative bg-gray-900 border border-gray-800 hover:border-gray-700 rounded-2xl overflow-hidden shadow-2xl hover:shadow-[var(--primary)]/5 transition-all duration-500 cursor-pointer"
+                                className="group relative bg-gray-900 border border dark:border-[var(--accent)]/30 rounded-2xl overflow-hidden shadow-2xl hover:shadow-[var(--primary)]/5 transition-all duration-500 cursor-pointer"
                                 onClick={() => openProject(project)}
                             >
                                 {/* Thumbnail Image */}
@@ -246,7 +244,7 @@ export default function Projects() {
                                     {/* Tech Stack Preview */}
                                     <div className="flex flex-wrap gap-2 mt-auto">
                                         {project.techStack.slice(0, 3).map((tech) => (
-                                            <span key={tech} className="text-[10px] font-bold text-gray-300 bg-gray-800 border border-gray-700 px-2 py-1 rounded-md">
+                                            <span key={tech} className="text-[10px] font-bold text-gray-300 bg-gray-800 border border-[var(--accent)]/40 px-2 py-1 rounded-md">
                                                 {tech}
                                             </span>
                                         ))}

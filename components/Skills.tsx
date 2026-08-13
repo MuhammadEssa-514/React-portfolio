@@ -77,7 +77,7 @@ function SkillItem({ skill, index }: { skill: { name: string, level: number }, i
                     whileInView={{ width: `${skill.level}%` }}
                     transition={{ duration: 1.5, ease: "easeOut" }}
                     viewport={{ once: true }}
-                    className="h-full rounded-full bg-[var(--primary)]"
+                    className="h-full rounded-full bg-[var(--accent)]"
                 />
             </div>
         </motion.div>

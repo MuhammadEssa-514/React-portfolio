@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Eye, Award, CheckCircle, X, Download } from 'lucide-react';
@@ -25,7 +24,6 @@ export default function Certificates() {
 
     return (
         <main className="min-h-screen relative">
-            <Navbar />
 
             {/* Modal for Image Viewing */}
             <AnimatePresence>

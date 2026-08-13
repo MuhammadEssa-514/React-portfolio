@@ -205,8 +205,8 @@ export default function ThemeSettings() {
                                         key={font.name}
                                         onClick={() => changeFont(font)}
                                         className={`px-2 py-2 rounded-lg border text-[10px] font-medium transition-all ${currentFont === font.value
-                                            ? 'border-[var(--primary)] bg-[var(--primary)]/10 text-[var(--primary)]'
-                                            : 'border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-[var(--primary)]/50'
+                                            ? 'border-primary bg-primary/10 text-primary'
+                                            : 'border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-primary/50'
                                             }`}
                                         style={{ fontFamily: font.value }}
                                     >
@@ -222,15 +222,15 @@ export default function ThemeSettings() {
                                 <h4 className="text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">
                                     Interactive Cursor
                                 </h4>
-                                <span className="px-2 py-0.5 rounded-md bg-[var(--primary)]/10 text-[var(--primary)] text-[8px] font-black uppercase">Alpha</span>
+                                <span className="px-2 py-0.5 rounded-md bg-primary/10 text-primary text-[8px] font-black uppercase">Alpha</span>
                             </div>
-                            <div className="flex gap-2">
-                                {['Web', 'Simple', 'None'].map((s) => (
+                            <div className="grid grid-cols-3 gap-1.5">
+                                {['Web', 'Simple', 'Crosshair', 'Arrow', 'Target', 'None'].map((s) => (
                                     <button
                                         key={s}
                                         onClick={() => changeCursor(s.toLowerCase())}
-                                        className={`flex-1 py-2 rounded-xl border text-[10px] font-bold tracking-tight transition-all active:scale-95 ${cursorStyle === s.toLowerCase()
-                                            ? 'border-[var(--primary)] bg-[var(--primary)]/10 text-[var(--primary)] shadow-[0_0_15px_rgba(var(--primary),0.1)]'
+                                        className={`py-2 rounded-xl border text-[9px] font-bold tracking-tight transition-all active:scale-95 ${cursorStyle === s.toLowerCase()
+                                            ? 'border-primary bg-primary/10 text-primary shadow-[0_0_15px_rgba(249,115,22,0.1)]'
                                             : 'border-gray-200 dark:border-white/5 text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-white/20'
                                             }`}
                                     >

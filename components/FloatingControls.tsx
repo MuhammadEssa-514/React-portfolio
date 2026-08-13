@@ -146,7 +146,7 @@ export default function FloatingControls() {
                 transition={{ delay: 0.1 }}
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="hidden md:flex bg-[var(--primary)] text-white p-4 rounded-full shadow-lg hover:shadow-[var(--primary)]/40 hover:shadow-xl transition-all items-center justify-center relative pointer-events-auto"
+                className="hidden md:flex bg-primary text-white p-4 rounded-full shadow-lg hover:shadow-primary/40 hover:shadow-xl transition-all items-center justify-center relative pointer-events-auto"
             >
                 <AnimatePresence mode="wait">
                     {isOpen
@@ -167,37 +167,40 @@ export default function FloatingControls() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 24, scale: 0.93 }}
                         transition={{ type: "spring", stiffness: 300, damping: 28 }}
-                        className="fixed md:absolute bottom-[90px] md:bottom-20 left-1/2 -translate-x-1/2 md:left-auto md:right-0 md:translate-x-0 w-[calc(100vw-2rem)] md:w-[360px] bg-white dark:bg-[#0f0f0f] rounded-2xl shadow-2xl border border-gray-200 dark:border-white/10 overflow-hidden pointer-events-auto z-[60] flex flex-col"
-                        style={{ height: '520px' }}
+                        className="fixed md:absolute bottom-[100px] md:bottom-24 left-1/2 -translate-x-1/2 md:left-auto md:right-0 md:translate-x-0 w-[calc(100vw-1.5rem)] md:w-[380px] bg-white dark:bg-[#0f0f0f] rounded-[24px] shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-gray-200 dark:border-white/10 overflow-hidden pointer-events-auto z-[100] flex flex-col"
+                        style={{ height: 'min(620px, 75vh)' }}
                     >
                         {/* ===== HEADER ===== */}
-                        <div className="bg-gradient-to-r from-[var(--primary)] to-[var(--accent,var(--primary))] p-4 flex items-center justify-between shrink-0">
+                        <div className="bg-gradient-to-r from-primary to-accent p-4 md:p-5 flex items-center justify-between shrink-0 shadow-lg relative z-10">
                             <div className="flex items-center gap-3">
                                 <div className="relative">
-                                    <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-white/40">
-                                        <Image src="/profile.jpg" alt="Muhammad Essa" width={40} height={40} className="w-full h-full object-cover" />
+                                    <div className="w-11 h-11 rounded-full overflow-hidden ring-2 ring-white/40 shadow-inner">
+                                        <Image src="/profile.jpg" alt="Muhammad Essa" width={44} height={44} className="w-full h-full object-cover" />
                                     </div>
-                                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white" />
+                                    <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-400 rounded-full border-2 border-white" />
                                 </div>
                                 <div>
-                                    <h3 className="text-white font-bold text-sm tracking-wide">Muhammad Essa's AI</h3>
-                                    <p className="text-white/70 text-[10px] mt-0.5">Typically replies instantly</p>
+                                    <h3 className="text-white font-bold text-sm tracking-wide">Muhammad Essa</h3>
+                                    <p className="text-white/80 text-[10px] mt-0.5 flex items-center gap-1.5">
+                                        <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+                                        Typically replies instantly
+                                    </p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-1">
+                            <div className="flex items-center gap-2">
                                 <button
-                                    onClick={() => setMessages([{ text: "👋 Hi! I'm Muhammad Essa's AI Assistant. Ask me anything about his skills, projects, pricing, or experience!", isBot: true, time: getTime() }]) || setShowSuggestions(true)}
-                                    className="p-2 hover:bg-white/10 rounded-full text-white/70 hover:text-white transition-colors text-[10px] font-medium px-3"
+                                    onClick={() => { setMessages([{ text: "👋 Hi! I'm Muhammad Essa's AI Assistant. Ask me anything about his skills, projects, pricing, or experience!", isBot: true, time: getTime() }]); setShowSuggestions(true); }}
+                                    className="p-1.5 hover:bg-white/15 rounded-lg text-white/80 hover:text-white transition-colors text-[10px] font-bold uppercase tracking-wider px-2.5 bg-white/5"
                                     title="Clear chat"
                                 >
                                     Clear
                                 </button>
                                 <button
                                     onClick={() => setIsOpen(false)}
-                                    className="p-2 hover:bg-white/10 rounded-full text-white transition-colors"
+                                    className="p-2.5 bg-white/20 hover:bg-white/30 rounded-xl text-white transition-all active:scale-90"
                                     aria-label="Close Chat"
                                 >
-                                    <X className="w-4 h-4" />
+                                    <X className="w-5 h-5 stroke-[2.5]" />
                                 </button>
                             </div>
                         </div>
@@ -213,16 +216,16 @@ export default function FloatingControls() {
                                     transition={{ duration: 0.25 }}
                                     className={`flex items-end gap-2 ${msg.isBot ? 'justify-start' : 'justify-end'}`}
                                 >
-                                    {msg.isBot && (
-                                        <div className="w-7 h-7 rounded-full overflow-hidden ring-1 ring-[var(--primary)]/30 shrink-0 mb-1">
+                                                                    {msg.isBot && (
+                                        <div className="w-7 h-7 rounded-full overflow-hidden ring-1 ring-primary/30 shrink-0 mb-1">
                                             <Image src="/profile.jpg" alt="Muhammad Essa" width={28} height={28} className="w-full h-full object-cover" />
                                         </div>
                                     )}
-
+ 
                                     <div className={`flex flex-col gap-0.5 max-w-[78%] ${msg.isBot ? 'items-start' : 'items-end'}`}>
                                         <div className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed shadow-sm ${msg.isBot
                                             ? 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 rounded-tl-sm'
-                                            : 'bg-gradient-to-br from-[var(--primary)] to-[var(--accent,var(--primary))] text-white rounded-tr-sm'
+                                            : 'bg-gradient-to-br from-primary to-accent text-white rounded-tr-sm'
                                             }`}>
                                             {msg.isBot ? <BotMessage text={msg.text} /> : msg.text}
                                         </div>
@@ -243,7 +246,7 @@ export default function FloatingControls() {
                                         <button
                                             key={s}
                                             onClick={() => sendMessage(s)}
-                                            className="text-xs bg-white dark:bg-gray-800 border border-[var(--primary)]/30 text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white px-3 py-1.5 rounded-full transition-all duration-200 shadow-sm"
+                                            className="text-xs bg-white dark:bg-gray-800 border border-primary/30 text-primary hover:bg-primary hover:text-white px-3 py-1.5 rounded-full transition-all duration-200 shadow-sm"
                                         >
                                             {s}
                                         </button>
@@ -258,7 +261,7 @@ export default function FloatingControls() {
                                     animate={{ opacity: 1, y: 0 }}
                                     className="flex items-end gap-2"
                                 >
-                                    <div className="w-7 h-7 rounded-full overflow-hidden ring-1 ring-[var(--primary)]/30 shrink-0">
+                                    <div className="w-7 h-7 rounded-full overflow-hidden ring-1 ring-primary/30 shrink-0">
                                         <Image src="/profile.jpg" alt="ME" width={28} height={28} className="w-full h-full object-cover" />
                                     </div>
                                     <div className="bg-white dark:bg-gray-800 px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm flex items-center gap-1.5">
@@ -289,7 +292,7 @@ export default function FloatingControls() {
                                     onClick={handleSendMessage}
                                     disabled={isTyping || !inputValue.trim()}
                                     whileTap={{ scale: 0.9 }}
-                                    className="p-2.5 bg-gradient-to-br from-[var(--primary)] to-[var(--accent,var(--primary))] text-white rounded-full transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-sm hover:shadow-md hover:shadow-[var(--primary)]/30"
+                                    className="p-2.5 bg-gradient-to-br from-primary to-accent text-white rounded-full transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-sm hover:shadow-md hover:shadow-primary/30"
                                 >
                                     <Send className="w-3.5 h-3.5" />
                                 </motion.button>

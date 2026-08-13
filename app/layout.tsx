@@ -3,6 +3,9 @@ import { Geist, Geist_Mono, Playfair_Display, Nunito, Roboto_Slab } from "next/f
 import FloatingControls from "@/components/FloatingControls";
 import ParticleBackground from "@/components/ParticleBackground";
 import SpiderCursor from "@/components/SpiderCursor";
+import PageTransition from "@/components/PageTransition";
+import ScrollToTop from "@/components/ScrollToTop";
+import Navbar from "@/components/Navbar";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -46,11 +49,14 @@ export default function RootLayout({
         suppressHydrationWarning
         className="antialiased"
       >
-
-        {children}
+        <Navbar />
+        <PageTransition>
+          {children}
+        </PageTransition>
         <FloatingControls />
         <ParticleBackground />
         <SpiderCursor />
+        <ScrollToTop />
       </body>
     </html>
   );
